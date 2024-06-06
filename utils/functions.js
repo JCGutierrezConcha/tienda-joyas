@@ -14,13 +14,24 @@ export const HATEOASV2 = () => {
   }));
 };
 
-export const orderValues = (order) => {
+/* export const orderValues = (order) => {
   return order === 'asc'
     ? joyas.sort((a, b) => a.value - b.value)
     : order === 'desc'
     ? joyas.sort((a, b) => b.value - a.value)
     : [];
+}; */
+
+export const orderValues = (order) => {
+  if (order === 'asc') {
+    return joyas.sort((a, b) => a.value - b.value);
+  } else if (order === 'desc') {
+    return joyas.sort((a, b) => b.value - a.value);
+  } else {
+    return [];
+  }
 };
+
 
 export const getJoyaById = (id) => {
   return joyas.find((j) => j.id === id);
@@ -30,7 +41,7 @@ export const fieldsSelect = (joya, fields) => {
   const Fields = fields.split(',');
   const properties = Object.keys(joya);
   const check = Fields.every((field) => properties.includes(field));
-  
+
   if (!check) {
     return {
       error: '400 Bad Request',
@@ -41,7 +52,7 @@ export const fieldsSelect = (joya, fields) => {
   for (let field in joya) {
     if (!Fields.includes(field)) delete joya[field];
   }
-  
+
   return joya;
 };
 
